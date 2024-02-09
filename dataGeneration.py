@@ -17,3 +17,4 @@ for i in range(0,7,1):
         f.write("\n")
     upperBound *= 10
     jackpotAmount *= 3
+f.close()
