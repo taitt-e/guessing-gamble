@@ -9,7 +9,7 @@ lowerBound = 1
 jackpotAmount = 3
 f = open("input.txt", "w")
 
-for i in range(0,7,1):
+for i in range(0,8,1):
     for j in range (1,100,1):
         x = random.randint(lowerBound,upperBound)
         f.write(str(lowerBound) + " " + str(upperBound))
