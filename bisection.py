@@ -20,7 +20,7 @@ def main(lowerBound, upperBound, target, jackpot):
     end_time = time.perf_counter()  # End time in microseconds
     elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the correct value
 
-    with open("results.txt", "a") as file:
+    with open("BisectionResults.txt", "a") as file:
         file.write(f"{lowerBound} {upperBound} {target} {guess_count} {jackpot} {jackpot - guess_count} {elapsed_time:.2f}\n")
 
     if guess != -1:
