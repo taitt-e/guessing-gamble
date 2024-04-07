@@ -1,0 +1,44 @@
+import argparse
+import time
+
+def dynamicProgrammingFind(minRange, maxRange, target, jackpot):
+    print("minRange:" + str(minRange))
+    print("minRange:" + str(maxRange))
+    print("minRange:" + str(target))
+    print("minRange:" + str(jackpot))
+
+    ##Base setup is done, will begin making the algorithm tomorrow - TE
+    return 0, 0
+
+def main(min_range, max_range, target, jackpot):
+    start_time = time.perf_counter()  # Start time in microseconds
+    guess, guess_count = dynamicProgrammingFind(min_range, max_range, target, jackpot)
+    end_time = time.perf_counter()  # End time in microseconds
+    elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the correct value
+
+    with open("DynamicProgrammingResults.txt", "a") as file:
+        file.write(f"{min_range} {max_range} {target} {guess_count} {jackpot} {jackpot - guess_count} {elapsed_time:.2f}\n")
+
+    if guess is not None:
+        print("Jackpot won! Target number is:", guess)
+        print("Number of guesses:", guess_count)
+        print("Time taken (microseconds): {:.2f}".format(elapsed_time))
+    else:
+        print("Target number not found in this subrange.")
+
+def read_arguments_from_file(filename):
+    with open(filename, "r") as file:
+        for line in file:
+            arguments = line.strip().split()
+            if len(arguments) == 4:
+                min_range, max_range, target_number, jackpot = map(int, arguments)
+                main(min_range, max_range, target_number, jackpot)
+            else:
+                print("Invalid input format:", line)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Greedy guessing game")
+    parser.add_argument("filename", type=str, help="File containing arguments")
+    args = parser.parse_args()
+
+    read_arguments_from_file(args.filename)

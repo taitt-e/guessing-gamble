@@ -1,3 +1,4 @@
+import argparse
 import time
 
 def egyptian_fraction_find(min_range, max_range, target_number, jackpot, guess_count=0):
