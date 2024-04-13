@@ -9,7 +9,6 @@ def dynamicProgrammingFind(maxRange, target):
     breakBool = True
     guess_count = 0
     ##Find the answer via dynamic division
-    tempInt = numerator/denominator
     while (breakBool):
         guess_count+=1
         tempInt = numerator/denominator
@@ -41,8 +40,14 @@ def main(min_range, max_range, target, jackpot):
         print("Jackpot won! Target number is:", guess)
         print("Number of guesses:", guess_count)
         print("Time taken (microseconds): {:.2f}".format(elapsed_time))
+        appendTime("{:.2f}\n".format(elapsed_time))
     else:
         print("Target number not found in this subrange.")
+
+def appendTime(time):
+    f = open("DynamicProgrammingTimes", "a")
+    f.write(time)
+    f.close
 
 def read_arguments_from_file(filename):
     with open(filename, "r") as file:
@@ -55,7 +60,7 @@ def read_arguments_from_file(filename):
                 print("Invalid input format:", line)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Greedy guessing game")
+    parser = argparse.ArgumentParser(description="Dynamic Programming guessing game")
     parser.add_argument("filename", type=str, help="File containing arguments")
     args = parser.parse_args()
 
