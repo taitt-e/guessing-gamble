@@ -2,7 +2,7 @@ import argparse
 import time
 import math
 
-def dynamicProgrammingFind(minRange, maxRange, target):
+def dynamicProgrammingFind(maxRange, target):
     print("Finding: " + str(target))
     numerator = 1
     denominator = 2
@@ -30,7 +30,7 @@ def dynamicProgrammingFind(minRange, maxRange, target):
 
 def main(min_range, max_range, target, jackpot):
     start_time = time.perf_counter()  # Start time in microseconds
-    guess, guess_count = dynamicProgrammingFind(min_range, max_range, target)
+    guess, guess_count = dynamicProgrammingFind(max_range, target)
     end_time = time.perf_counter()  # End time in microseconds
     elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the correct value
 
