@@ -1,58 +1,31 @@
 import argparse
 import time
+import math
 
 def dynamicProgrammingFind(minRange, maxRange, target):
     print("Finding: " + str(target))
-    tempInt = minRange
+    numerator = 1
+    denominator = 2
     breakBool = True
-    operator = 2
     guess_count = 0
-    ##Find a smaller subrange to begin iterating on via dynamic division
+    ##Find the answer via dynamic division
+    tempInt = numerator/denominator
     while (breakBool):
-        if(tempInt == target):
-            return tempInt,guess_count
         guess_count+=1
-        if(target > (maxRange//operator)):
-            operator-=1
-            tempInt = maxRange//operator
+        tempInt = numerator/denominator
+        tempInt *= maxRange
+        if(math.floor(tempInt) == target):
+            tempInt = math.floor(tempInt)
             break
-        else:
-            operator+=1
-    if(tempInt == target):
-        return tempInt,guess_count
-    
-    ##Further close the gap via dynamic multiplication with loops
-    ##Not properly iterating here, I believe its a logic error - TE
-    operator = 1
-    while(breakBool):
-        for x in range(operator):
-            guess_count+=1
-            if(tempInt+(operator*x) > target):
-                tempInt = tempInt+(operator*(x-1))
-                breakBool = False
-        operator+=1
-    if(tempInt == target):
-        return tempInt,guess_count
-    
-    ##Close the gap even more with dynamic addition
-    ##Not properly iterating here, I believe its a logic error - TE
-    operator = 1
-    breakBool = True
-    while(breakBool):
-            for x in range(operator):
-                guess_count+=1
-                if(tempInt+(operator+x) > target):
-                    tempInt += (operator+x)
-                    breakBool = False
-                    break
+        if(math.ceil(tempInt) == target):
+            tempInt = math.ceil(tempInt)
+            break
+        if(tempInt == target):
+            break
+        if(target > tempInt):
+            numerator += 1
+        denominator += 1
 
-            operator+=1
-    
-    ##Finally close the gap with subtraction
-    while(tempInt != target):
-        guess_count+=1
-        tempInt-=1
-    
     return tempInt, guess_count
 
 def main(min_range, max_range, target, jackpot):
