@@ -33,20 +33,32 @@ def main(min_range, max_range, target, jackpot):
     end_time = time.perf_counter()  # End time in microseconds
     elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the correct value
 
-    with open("DynamicProgrammingResults.txt", "a") as file:
-        file.write(f"{min_range} {max_range} {target} {guess_count} {jackpot} {jackpot - guess_count} {elapsed_time:.2f}\n")
+    ##with open("DynamicProgrammingResults.txt", "a") as file:
+    ##    file.write(f"{min_range} {max_range} {target} {guess_count} {jackpot} {jackpot - guess_count} {elapsed_time:.2f}\n")
 
     if guess is not None:
         print("Jackpot won! Target number is:", guess)
         print("Number of guesses:", guess_count)
         print("Time taken (microseconds): {:.2f}".format(elapsed_time))
         appendTime("{:.2f}\n".format(elapsed_time))
+        appendMax(str(max_range) + "\n")
+        appendGuesses(str(guess_count) + "\n")
     else:
         print("Target number not found in this subrange.")
 
 def appendTime(time):
-    f = open("DynamicProgrammingTimes", "a")
+    f = open("DynamicProgrammingTimes.txt", "a")
     f.write(time)
+    f.close
+
+def appendMax(max):
+    f = open("DynamicProgrammingMaxes.txt", "a")
+    f.write(max)
+    f.close
+
+def appendGuesses(guessCount):
+    f = open("DynamicProgrammingGuesses.txt", "a")
+    f.write(guessCount)
     f.close
 
 def read_arguments_from_file(filename):
