@@ -5,28 +5,36 @@ def egyptian_fraction_find(min_range, max_range, target_number, jackpot, guess_c
     # Check if the jackpot is in the middle
     middle_divisor = (min_range + max_range) // 2
     
-    guess_count += 1
+    ##guess_count += 1
 
     if jackpot == middle_divisor:
         return jackpot, guess_count
     elif jackpot < middle_divisor:
         # Check if the jackpot is on the low end
         find_int = middle_divisor - 1
-        for i in range(middle_divisor - 1, 0, -1):
+        for i in range(find_int, 0, -1):
+            guess_count += 1
             if i < jackpot:
                 find_int = i
                 break
-        for i in range(find_int, jackpot + 1):
-            if i == jackpot:
-                return jackpot, guess_count
+        ##for i in range(find_int, jackpot + 1):
+        ##    guess_count += 1
+        ##    if i == jackpot:
+        ##        return jackpot, guess_count
         # Recursive call for lower subrange
         return egyptian_fraction_find(min_range, middle_divisor - 1, target_number, jackpot, guess_count)
     else:
         # Check if the jackpot is on the high end
         find_int = middle_divisor
-        for i in range(middle_divisor, max_range + 1):
-            if i == jackpot:
-                return jackpot, guess_count
+        for i in range(find_int, 0, -1):
+            guess_count += 1
+            if i < jackpot:
+                find_int = i
+                break
+        ##for i in range(middle_divisor, max_range + 1):
+        ##    guess_count += 1
+        ##    if i == jackpot:
+        ##        return jackpot, guess_count
         # Recursive call for upper subrange
         return egyptian_fraction_find(middle_divisor + 1, max_range, target_number, jackpot, guess_count)
 
