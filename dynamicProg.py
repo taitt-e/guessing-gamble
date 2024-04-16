@@ -8,8 +8,14 @@ def dynamicProgrammingFind(maxRange, target):
     denominator = 2
     breakBool = True
     guess_count = 0
+    modCheck = -1
     ##Find the answer via dynamic division
     while (breakBool):
+        ##Skip repeat fractions
+        if((((numerator % 2 == 0) and (denominator % 2 == 0)) or ((numerator % 3 == 0) and (denominator % 3 == 0))) and (numerator != 1)):
+            if(tempInt > target):
+                numerator+=1
+            denominator+=1
         guess_count+=1
         tempInt = numerator/denominator
         tempInt *= maxRange
@@ -24,6 +30,8 @@ def dynamicProgrammingFind(maxRange, target):
         if(target > tempInt):
             numerator += 1
         denominator += 1
+    
+        ##print(str(numerator) + " / " + str(denominator))
 
     return tempInt, guess_count
 
