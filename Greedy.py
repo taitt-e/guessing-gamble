@@ -33,6 +33,7 @@ def greedy_egyptian_fraction(numerator, denominator, target):
     return fractions, guess_count
 
 def main(numerator, denominator, target, jackpot):
+    guessLimitBool = False
     start_time = time.perf_counter()  # Start time in microseconds
     fraction_representation, guess_count = greedy_egyptian_fraction(numerator, denominator, target)
     end_time = time.perf_counter()  # End time in microseconds
@@ -41,12 +42,48 @@ def main(numerator, denominator, target, jackpot):
     with open("EgyptianFractionResults.txt", "a") as file:
         file.write(f"{numerator} {denominator} {target} {len(fraction_representation)} {jackpot} {jackpot - len(fraction_representation)} {guess_count} {elapsed_time:.2f}\n")
 
-    print("Egyptian fraction representation:", fraction_representation)
-    print("Number of unit fractions:", len(fraction_representation))
-    print("Number of guesses:", guess_count)
-    print("Time taken (microseconds): {:.2f}".format(elapsed_time))
-    if len(fraction_representation) == jackpot:
-        print("You hit the jackpot!")
+    if(guessLimitBool):
+        ##appendguessLimit(guess, upperBound)
+
+    ##Was previously Guess
+    ##if fraction_representation is not None:
+        if(guessLimitBool):
+            appendSuccess()
+        else:
+            ##print("Jackpot won! Target number is:", guess)
+            print("Number of guesses:", guess_count)
+            print("Time taken (microseconds): {:.2f}".format(elapsed_time))
+        ##appendTime("{:.2f}\n".format(elapsed_time))
+        ##appendMax(str(upperBound) + "\n")
+        ##appendGuesses(str(guess_count) + "\n")
+
+def appendSuccess():
+    f = open("MaxGuesses.txt", "a")
+    f.write(str(1) + "\n")
+    f.close()
+
+def appendguessLimit(guesses, maxRange):
+    maxGuesses = maxRange // 2
+    if(guesses == maxGuesses):
+        f = open("MaxGuesses.txt", "a")
+        f.write(str(0) + "\n")
+        guesses = 0
+        f.close()
+
+def appendTime(time):
+    f = open("DynamicProgrammingTimes.txt", "a")
+    f.write(time)
+    f.close
+
+def appendMax(max):
+    f = open("DynamicProgrammingMaxes.txt", "a")
+    f.write(max)
+    f.close
+
+def appendGuesses(guessCount):
+    f = open("DynamicProgrammingGuesses.txt", "a")
+    f.write(guessCount)
+    f.close
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Egyptian fraction guessing game")
