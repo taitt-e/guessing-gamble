@@ -34,7 +34,7 @@ def dynamicProgrammingFind(maxRange, target):
     return tempInt, guess_count
 
 def main(min_range, max_range, target, jackpot):
-    guessLimitBool = True
+    guessLimitBool = False
     start_time = time.perf_counter()  # Start time in microseconds
     guess, guess_count = dynamicProgrammingFind(max_range, target)
     end_time = time.perf_counter()  # End time in microseconds
@@ -61,14 +61,14 @@ def main(min_range, max_range, target, jackpot):
         print("Target number not found in this subrange.")
 
 def appendSuccess():
-    f = open("MaxGuesses.txt", "a")
+    f = open("DPMaxGuesses.txt", "a")
     f.write(str(1) + "\n")
     f.close()
 
 def appendguessLimit(guesses, maxRange):
     maxGuesses = maxRange // 2
     if(guesses == maxGuesses):
-        f = open("MaxGuesses.txt", "a")
+        f = open("DPMaxGuesses.txt", "a")
         f.write(str(0) + "\n")
         guesses = 0
         f.close()

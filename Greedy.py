@@ -58,30 +58,30 @@ def main(numerator, denominator, target, jackpot):
         ##appendGuesses(str(guess_count) + "\n")
 
 def appendSuccess():
-    f = open("MaxGuesses.txt", "a")
+    f = open("EFMaxGuesses.txt", "a")
     f.write(str(1) + "\n")
     f.close()
 
 def appendguessLimit(guesses, maxRange):
     maxGuesses = maxRange // 2
     if(guesses == maxGuesses):
-        f = open("MaxGuesses.txt", "a")
+        f = open("EFMaxGuesses.txt", "a")
         f.write(str(0) + "\n")
         guesses = 0
         f.close()
 
 def appendTime(time):
-    f = open("DynamicProgrammingTimes.txt", "a")
+    f = open("EFTimes.txt", "a")
     f.write(time)
     f.close
 
 def appendMax(max):
-    f = open("DynamicProgrammingMaxes.txt", "a")
+    f = open("EFMaxes.txt", "a")
     f.write(max)
     f.close
 
 def appendGuesses(guessCount):
-    f = open("DynamicProgrammingGuesses.txt", "a")
+    f = open("EFGuesses.txt", "a")
     f.write(guessCount)
     f.close
 
