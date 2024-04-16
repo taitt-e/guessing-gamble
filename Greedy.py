@@ -1,72 +1,59 @@
 import argparse
 import time
 
-def egyptian_fraction_find(min_range, max_range, target_number, jackpot, guess_count=0):
-    # Check if the jackpot is in the middle
-    middle_divisor = (min_range + max_range) // 2
+def greedy_egyptian_fraction(numerator, denominator, target):
+    fractions = []
+    original_numerator = numerator  # Store the original numerator for printing
+    original_denominator = denominator  # Store the original denominator for printing
+    guess_count = 0  # Initialize guess counter
     
-    ##guess_count += 1
+    # Adjust the numerator and denominator to represent the fraction provided as input
+    if numerator >= denominator:
+        fractions.append(numerator // denominator)  # Add the whole part to the fractions
+        numerator %= denominator  # Update the numerator
+    elif numerator == denominator:
+        fractions.append(1)  # Add 1 as a unit fraction
+        return fractions, guess_count
+    
+    while numerator != 0 and len(fractions) < target:
+        unit_fraction_denominator = -(-denominator // numerator)  # Ceiling division
+        fractions.append(unit_fraction_denominator)
+        guess_count += 1  # Increment guess counter
+        numerator = numerator * unit_fraction_denominator - denominator
+        denominator *= unit_fraction_denominator
+        guess_count += 1  # Increment guess counter for the numerator and denominator operations
 
-    if jackpot == middle_divisor:
-        return jackpot, guess_count
-    elif jackpot < middle_divisor:
-        # Check if the jackpot is on the low end
-        find_int = middle_divisor - 1
-        for i in range(find_int, 0, -1):
-            guess_count += 1
-            if i < jackpot:
-                find_int = i
-                break
-        ##for i in range(find_int, jackpot + 1):
-        ##    guess_count += 1
-        ##    if i == jackpot:
-        ##        return jackpot, guess_count
-        # Recursive call for lower subrange
-        return egyptian_fraction_find(min_range, middle_divisor - 1, target_number, jackpot, guess_count)
-    else:
-        # Check if the jackpot is on the high end
-        find_int = middle_divisor
-        for i in range(find_int, 0, -1):
-            guess_count += 1
-            if i < jackpot:
-                find_int = i
-                break
-        ##for i in range(middle_divisor, max_range + 1):
-        ##    guess_count += 1
-        ##    if i == jackpot:
-        ##        return jackpot, guess_count
-        # Recursive call for upper subrange
-        return egyptian_fraction_find(middle_divisor + 1, max_range, target_number, jackpot, guess_count)
+    # If the loop terminates and there are still unit fractions needed to reach the target,
+    # add additional 1s to represent the remaining fraction
+    while len(fractions) < target:
+        fractions.append(1)
+        guess_count += 1  # Increment guess counter for adding 1s
 
-def main(min_range, max_range, target_number, jackpot):
+    print('Original fraction:', original_numerator, '/', original_denominator)
+    return fractions, guess_count
+
+def main(numerator, denominator, target, jackpot):
     start_time = time.perf_counter()  # Start time in microseconds
-    guess, guess_count = egyptian_fraction_find(min_range, max_range, target_number, jackpot)
+    fraction_representation, guess_count = greedy_egyptian_fraction(numerator, denominator, target)
     end_time = time.perf_counter()  # End time in microseconds
-    elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the correct value
+    elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the fraction representation
 
-    with open("GreedyResults.txt", "a") as file:
-        file.write(f"{min_range} {max_range} {target_number} {guess_count} {jackpot} {jackpot - guess_count} {elapsed_time:.2f}\n")
+    with open("EgyptianFractionResults.txt", "a") as file:
+        file.write(f"{numerator} {denominator} {target} {len(fraction_representation)} {jackpot} {jackpot - len(fraction_representation)} {guess_count} {elapsed_time:.2f}\n")
 
-    if guess is not None:
-        print("Jackpot won! Target number is:", guess)
-        print("Number of guesses:", guess_count)
-        print("Time taken (microseconds): {:.2f}".format(elapsed_time))
-    else:
-        print("Target number not found in this subrange.")
-
-def read_arguments_from_file(filename):
-    with open(filename, "r") as file:
-        for line in file:
-            arguments = line.strip().split()
-            if len(arguments) == 4:
-                min_range, max_range, target_number, jackpot = map(int, arguments)
-                main(min_range, max_range, target_number, jackpot)
-            else:
-                print("Invalid input format:", line)
+    print("Egyptian fraction representation:", fraction_representation)
+    print("Number of unit fractions:", len(fraction_representation))
+    print("Number of guesses:", guess_count)
+    print("Time taken (microseconds): {:.2f}".format(elapsed_time))
+    if len(fraction_representation) == jackpot:
+        print("You hit the jackpot!")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Greedy guessing game")
-    parser.add_argument("filename", type=str, help="File containing arguments")
+    parser = argparse.ArgumentParser(description="Egyptian fraction guessing game")
+    parser.add_argument("numerator", type=int, help="Numerator of the fraction")
+    parser.add_argument("denominator", type=int, help="Denominator of the fraction")
+    parser.add_argument("target", type=int, help="Target number of unit fractions")
+    parser.add_argument("jackpot", type=int, help="Jackpot number of unit fractions")
     args = parser.parse_args()
 
-    read_arguments_from_file(args.filename)
+    main(args.numerator, args.denominator, args.target, args.jackpot)
