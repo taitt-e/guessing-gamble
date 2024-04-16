@@ -30,12 +30,11 @@ def dynamicProgrammingFind(maxRange, target):
         if(target > tempInt):
             numerator += 1
         denominator += 1
-    
-        ##print(str(numerator) + " / " + str(denominator))
 
     return tempInt, guess_count
 
 def main(min_range, max_range, target, jackpot):
+    guessLimitBool = False
     start_time = time.perf_counter()  # Start time in microseconds
     guess, guess_count = dynamicProgrammingFind(max_range, target)
     end_time = time.perf_counter()  # End time in microseconds
@@ -44,6 +43,9 @@ def main(min_range, max_range, target, jackpot):
     ##with open("DynamicProgrammingResults.txt", "a") as file:
     ##    file.write(f"{min_range} {max_range} {target} {guess_count} {jackpot} {jackpot - guess_count} {elapsed_time:.2f}\n")
 
+    if(guessLimitBool):
+        appendguessLimit(guess, max_range)
+
     if guess is not None:
         print("Jackpot won! Target number is:", guess)
         print("Number of guesses:", guess_count)
@@ -51,8 +53,24 @@ def main(min_range, max_range, target, jackpot):
         appendTime("{:.2f}\n".format(elapsed_time))
         appendMax(str(max_range) + "\n")
         appendGuesses(str(guess_count) + "\n")
+        if(guessLimitBool):
+            appendSuccess()
+
     else:
         print("Target number not found in this subrange.")
+
+def appendSuccess():
+    f = open("MaxGuesses.txt", "a")
+    f.write(str(1))
+    f.close()
+
+def appendguessLimit(guesses, maxRange):
+    maxGuesses = maxRange // 2
+    if(guesses == maxGuesses):
+        f = open("MaxGuesses.txt", "a")
+        f.write(str(0))
+        guesses = 0
+        f.close()
 
 def appendTime(time):
     f = open("DynamicProgrammingTimes.txt", "a")
