@@ -61,19 +61,19 @@ def appendSuccess():
     except Exception as e:
         print("Error writing to EFMaxGuesses.txt:", e)
 
-#def appendTime(elapsed_time):
-    #try:
-        #with open("EFTimes.txt", "a") as f:
-            #f.write("{:.2f}\n".format(elapsed_time))
-    #except Exception as e:
-        #print("Error writing to EFTimes.txt:", e)
+def appendTime(elapsed_time):
+    try:
+        with open("EFTimes.txt", "a") as f:
+            f.write("{:.2f}\n".format(elapsed_time))
+    except Exception as e:
+        print("Error writing to EFTimes.txt:", e)
 
-#def appendGuesses(guess_count):
-    #try:
-        #with open("EFGuesses.txt", "a") as f:
-            #f.write(f"{guess_count}\n")
-    #except Exception as e:
-        #print("Error writing to EFGuesses.txt:", e)
+def appendGuesses(guess_count):
+    try:
+        with open("EFGuesses.txt", "a") as f:
+            f.write(f"{guess_count}\n")
+    except Exception as e:
+        print("Error writing to EFGuesses.txt:", e)
 
 def read_arguments_from_file():
     try:
