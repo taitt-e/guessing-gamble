@@ -1,4 +1,3 @@
-import argparse
 import time
 
 def greedy_egyptian_fraction(numerator, denominator, target):
@@ -39,58 +38,55 @@ def main(numerator, denominator, target, jackpot):
     end_time = time.perf_counter()  # End time in microseconds
     elapsed_time = (end_time - start_time) * 1_000_000  # Time taken to find the fraction representation
 
-    with open("EgyptianFractionResults.txt", "a") as file:
-        file.write(f"{numerator} {denominator} {target} {len(fraction_representation)} {jackpot} {jackpot - len(fraction_representation)} {guess_count} {elapsed_time:.2f}\n")
+    # Prepare the result string
+    result_str = f"{numerator} {denominator} {target} {len(fraction_representation)} {jackpot} {jackpot - len(fraction_representation)} {guess_count} {elapsed_time:.2f}\n"
 
-    if(guessLimitBool):
-        ##appendguessLimit(guess, upperBound)
+    # Write the result string to the result file
+    try:
+        with open("EgyptianFractionResults.txt", "a") as result_file:
+            result_file.write(result_str)
+    except Exception as e:
+        print("Error writing to EgyptianFractionResults.txt:", e)
 
-    ##Was previously Guess
-    ##if fraction_representation is not None:
-        if(guessLimitBool):
-            appendSuccess()
-        else:
-            ##print("Jackpot won! Target number is:", guess)
-            print("Number of guesses:", guess_count)
-            print("Time taken (microseconds): {:.2f}".format(elapsed_time))
-        ##appendTime("{:.2f}\n".format(elapsed_time))
-        ##appendMax(str(upperBound) + "\n")
-        ##appendGuesses(str(guess_count) + "\n")
+    if guessLimitBool:
+        appendSuccess()
+    #else:
+        #appendGuesses(guess_count)
+        #appendTime(elapsed_time)
 
 def appendSuccess():
-    f = open("EFMaxGuesses.txt", "a")
-    f.write(str(1) + "\n")
-    f.close()
+    try:
+        with open("EFMaxGuesses.txt", "a") as f:
+            f.write("1\n")
+    except Exception as e:
+        print("Error writing to EFMaxGuesses.txt:", e)
 
-def appendguessLimit(guesses, maxRange):
-    maxGuesses = maxRange // 2
-    if(guesses == maxGuesses):
-        f = open("EFMaxGuesses.txt", "a")
-        f.write(str(0) + "\n")
-        guesses = 0
-        f.close()
+def appendTime(elapsed_time):
+    try:
+        with open("EFTimes.txt", "a") as f:
+            f.write("{:.2f}\n".format(elapsed_time))
+    except Exception as e:
+        print("Error writing to EFTimes.txt:", e)
 
-def appendTime(time):
-    f = open("EFTimes.txt", "a")
-    f.write(time)
-    f.close
+def appendGuesses(guess_count):
+    try:
+        with open("EFGuesses.txt", "a") as f:
+            f.write(f"{guess_count}\n")
+    except Exception as e:
+        print("Error writing to EFGuesses.txt:", e)
 
-def appendMax(max):
-    f = open("EFMaxes.txt", "a")
-    f.write(max)
-    f.close
-
-def appendGuesses(guessCount):
-    f = open("EFGuesses.txt", "a")
-    f.write(guessCount)
-    f.close
+def read_arguments_from_file():
+    try:
+        with open("input.txt", "r") as file:
+            for line in file:
+                arguments = line.strip().split()
+                if len(arguments) == 4:
+                    lowerBound, upperBound, target, jackpot = map(int, arguments)
+                    main(lowerBound, upperBound, target, jackpot)
+                else:
+                    print("Invalid input format:", line)
+    except Exception as e:
+        print("Error reading input.txt:", e)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Egyptian fraction guessing game")
-    parser.add_argument("numerator", type=int, help="Numerator of the fraction")
-    parser.add_argument("denominator", type=int, help="Denominator of the fraction")
-    parser.add_argument("target", type=int, help="Target number of unit fractions")
-    parser.add_argument("jackpot", type=int, help="Jackpot number of unit fractions")
-    args = parser.parse_args()
-
-    main(args.numerator, args.denominator, args.target, args.jackpot)
+    read_arguments_from_file()
