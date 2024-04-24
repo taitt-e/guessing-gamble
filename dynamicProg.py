@@ -8,7 +8,6 @@ def dynamicProgrammingFind(maxRange, target):
     denominator = 2
     breakBool = True
     guess_count = 0
-    modCheck = -1
     ##Find the answer via dynamic division
     while (breakBool):
         ##Skip repeat fractions
