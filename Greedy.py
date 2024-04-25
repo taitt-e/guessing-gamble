@@ -28,11 +28,11 @@ def greedy_egyptian_fraction(numerator, denominator, target):
         fractions.append(1)
         guess_count += 1  # Increment guess counter for adding 1s
 
-    print('Original fraction:', original_numerator, '/', original_denominator)
+    ##print('Original fraction:', original_numerator, '/', original_denominator)
     return fractions, guess_count
 
 def main(numerator, denominator, target, jackpot):
-    guessLimitBool = False
+    guessLimitBool = True
     start_time = time.perf_counter()  # Start time in microseconds
     fraction_representation, guess_count = greedy_egyptian_fraction(numerator, denominator, target)
     end_time = time.perf_counter()  # End time in microseconds
@@ -49,10 +49,10 @@ def main(numerator, denominator, target, jackpot):
         print("Error writing to EgyptianFractionResults.txt:", e)
 
     if guessLimitBool:
-        appendSuccess()
-    #else:
-        #appendGuesses(guess_count)
-        #appendTime(elapsed_time)
+        appendguessLimit(guess_count, denominator)
+    else:
+        appendGuesses(guess_count)
+        appendTime(elapsed_time)
 
 def appendSuccess():
     try:
@@ -68,12 +68,22 @@ def appendTime(elapsed_time):
     except Exception as e:
         print("Error writing to EFTimes.txt:", e)
 
+def appendguessLimit(guesses, maxRange):
+    maxGuesses = maxRange // 2
+    if(guesses == maxGuesses):
+        f = open("EFMaxGuesses.txt", "a")
+        f.write(str(0) + "\n")
+        guesses = 0
+        f.close()
+    else:
+        appendSuccess()
+
 def appendGuesses(guess_count):
     try:
-        with open("EFGuesses.txt", "a") as f:
+        with open("EFMaxGuesses.txt", "a") as f:
             f.write(f"{guess_count}\n")
     except Exception as e:
-        print("Error writing to EFGuesses.txt:", e)
+        print("Error writing to EFMaxGuesses.txt:", e)
 
 def read_arguments_from_file():
     try:
